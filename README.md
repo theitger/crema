@@ -1,95 +1,142 @@
 <p align="center">
-  <img src="docs/icon.png" width="128" alt="Crema app icon">
+  <img src="docs/icon.png" width="112" alt="Crema">
 </p>
 
 <h1 align="center">Crema</h1>
 
 <p align="center">
-  <strong>Keep your Mac awake, one shot at a time.</strong><br>
-  A tiny menu bar app for macOS. Pull a shot, and your Mac stays up until it's done.
+  The keep-awake app for people who measure time in espresso.
 </p>
 
 <p align="center">
-  <img src="docs/menubar.png" width="380" alt="Crema in the menu bar, idle and extracting">
+  <a href="https://github.com/theitger/crema/releases/latest"><img src="https://img.shields.io/github/v/release/theitger/crema?style=flat-square&label=release&color=D99E66&labelColor=2A1A10" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-13%2B-D99E66?style=flat-square&labelColor=2A1A10" alt="macOS 13 or later">
+  <img src="https://img.shields.io/badge/Apple%20Silicon%20%2B%20Intel-universal-D99E66?style=flat-square&labelColor=2A1A10" alt="Universal app">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-D99E66?style=flat-square&labelColor=2A1A10" alt="MIT License"></a>
 </p>
+
+<p align="center">
+  <img src="docs/hero.png" alt="Crema running in the menu bar">
+</p>
+
+<br>
+
+## Get it
 
 ```sh
 brew install --cask theitger/tap/crema
 ```
 
----
+Or download the zip from the [latest release](https://github.com/theitger/crema/releases/latest).
+
+<br>
 
 ## Pull a shot
 
-Crema lives in your menu bar as a bottomless portafilter. Click it, pick a shot, and the coffee starts to pour. When the shot is done, your Mac goes back to its normal sleep schedule. No timers to remember, nothing left running.
+Click the portafilter in your menu bar and pick your size. Coffee starts to pour, your Mac stays up. When the shot is done, Crema gets out of the way and your Mac goes back to sleeping like it always does.
 
 <p align="center">
-  <img src="docs/panel-idle.png" width="300" alt="Crema panel while idle">
-  &nbsp;&nbsp;
-  <img src="docs/panel-brewing.png" width="300" alt="Crema panel while extracting">
+  <img src="docs/demo.gif" width="420" alt="Pulling a shot in Crema">
 </p>
 
-| Shot | Keeps your Mac awake for |
-| --- | --- |
-| Ristretto | 15 minutes |
-| Espresso | 30 minutes |
-| Doppio | 1 hour |
-| Lungo | 2 hours |
-| Americano | 4 hours |
-| Bottomless | Until you stop the shot |
+| Shot | Time | Good for |
+| :--- | :--- | :--- |
+| **Ristretto** | 15 min | A quick call |
+| **Espresso** | 30 min | That one long article |
+| **Doppio** | 1 h | The big download |
+| **Lungo** | 2 h | A deep work block |
+| **Americano** | 4 h | The render you're not babysitting |
+| **Bottomless** | ∞ | Until you say stop |
 
-## What's in the cup
+<br>
 
-- **One click.** Six presets, from a quick Ristretto to a Bottomless session for long builds and downloads.
-- **Live countdown.** See exactly how much time is left, with a progress bar that fills as the shot runs.
-- **Cup warmer.** Decide whether the display stays on too, or only the Mac itself. Your choice is remembered.
-- **Stop shot.** End it early with one click or <kbd>⌘</kbd> <kbd>.</kbd>
-- **Nothing left behind.** If Crema quits or crashes, the wake lock goes with it. Your Mac can never get stuck awake.
-- **Light as a ristretto.** Under 1 MB, no Dock icon, no network access, no tracking.
+## Why Crema
 
-## How it works
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>Out of the way</h4>
+      Lives in the menu bar. No Dock icon, no windows, no settings screen to get lost in.
+    </td>
+    <td width="33%" valign="top">
+      <h4>Never stuck awake</h4>
+      Every shot ends on time. If Crema quits or crashes, your Mac goes back to normal on its own.
+    </td>
+    <td width="33%" valign="top">
+      <h4>Cup warmer</h4>
+      Keep the display on too, or just the Mac. Flip it once and Crema remembers.
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>Live countdown</h4>
+      Time left and a progress bar, right under the icon. Stop early with one click or ⌘ .
+    </td>
+    <td width="33%" valign="top">
+      <h4>Built on caffeinate</h4>
+      No helpers, no daemons, no kernel extensions. Just the tool Apple already ships, wrapped nicely.
+    </td>
+    <td width="33%" valign="top">
+      <h4>Tiny and private</h4>
+      Under 1 MB. No network access, no analytics, no account.
+    </td>
+  </tr>
+</table>
 
-Crema is a friendly face for `caffeinate`, the tool macOS already ships with. Every shot runs:
+<br>
+
+## FAQ
+
+<details>
+<summary><b>Does it keep my MacBook awake with the lid closed?</b></summary>
+<br>
+No. Crema stops your Mac from dozing off while you're not touching it. Closing the lid still puts it to sleep, the way it should.
+</details>
+
+<details>
+<summary><b>macOS says it can't verify Crema. Is that a problem?</b></summary>
+<br>
+Crema is signed, but not notarized by Apple. Homebrew handles this for you. If you installed from the zip, allow it once under <b>System Settings &gt; Privacy &amp; Security &gt; Open Anyway</b>, or run:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/Crema.app
+```
+</details>
+
+<details>
+<summary><b>How do I start Crema at login?</b></summary>
+<br>
+Add it under <b>System Settings &gt; General &gt; Login Items</b>.
+</details>
+
+<details>
+<summary><b>What does it actually run?</b></summary>
+<br>
 
 ```sh
 caffeinate -i -m [-d] [-t <seconds>] -w <crema pid>
 ```
 
-| Flag | Meaning |
-| --- | --- |
-| `-i` | Prevent idle sleep |
-| `-m` | Keep the disk spinning |
-| `-d` | Keep the display on (only with Cup warmer) |
-| `-t` | End automatically after the shot's duration |
-| `-w` | Exit as soon as Crema does |
+| Flag | What it does |
+| :--- | :--- |
+| `-i` | Prevents idle sleep |
+| `-m` | Keeps the disk from sleeping |
+| `-d` | Keeps the display on, only with Cup warmer |
+| `-t` | Ends the shot after its time |
+| `-w` | Ends the shot as soon as Crema quits |
+</details>
 
-Closing the lid of a MacBook still puts it to sleep. Crema only stops your Mac from dozing off on its own.
+<details>
+<summary><b>Why "Crema"?</b></summary>
+<br>
+Crema is the golden layer on top of a good espresso. It's how you know the shot came out right.
+</details>
 
-## Install
+<br>
 
-### Homebrew
+## Build it yourself
 
-```sh
-brew install --cask theitger/tap/crema
-```
-
-### Manual
-
-Download `Crema-<version>.zip` from the [latest release](https://github.com/theitger/crema/releases/latest), unzip it and move `Crema.app` to your Applications folder.
-
-Crema is ad-hoc signed, not notarized by Apple. Homebrew takes care of that for you. If you install manually, macOS will block the first launch. Either allow it under **System Settings > Privacy & Security > Open Anyway**, or run:
-
-```sh
-xattr -dr com.apple.quarantine /Applications/Crema.app
-```
-
-### Start at login
-
-Add Crema under **System Settings > General > Login Items**.
-
-## Build from source
-
-You need macOS 13 or later and the Xcode Command Line Tools.
+Needs macOS 13 or later and the Xcode Command Line Tools.
 
 ```sh
 git clone https://github.com/theitger/crema.git
@@ -97,12 +144,10 @@ cd crema
 ./build.sh --install
 ```
 
-`./build.sh` builds a universal app (Apple Silicon and Intel) into `build/`. Use `--install` to copy it to `/Applications`, or `--release` to create a zip for a GitHub release.
+`./build.sh` builds a universal app into `build/`. Add `--install` to copy it to `/Applications`, or `--release` to package a zip.
 
-## Requirements
+<br>
 
-macOS 13 Ventura or later, on Apple Silicon or Intel.
-
-## License
-
-[MIT](LICENSE) © 2026 Tristan Heitger
+<p align="center">
+  <sub>MIT License · © 2026 Tristan Heitger · Made with too much espresso.</sub>
+</p>
