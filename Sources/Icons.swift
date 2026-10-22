@@ -4,6 +4,12 @@ import AppKit
 enum PortafilterIcon {
     /// Coffee brown that stays readable on both light and dark menu bars.
     static let menuBarBrown = NSColor(srgbRed: 0.66, green: 0.43, blue: 0.24, alpha: 1)
+    /// Ristretto, the panel's brown. Only readable on a light menu bar.
+    static let ristretto = NSColor(srgbRed: 0x2A / 255, green: 0x1A / 255, blue: 0x10 / 255, alpha: 1)
+
+    static func brewingColor(onDarkBar: Bool) -> NSColor {
+        onDarkBar ? menuBarBrown : ristretto
+    }
 
     static func image(brewing: Bool, size: CGFloat = 18, color: NSColor? = nil) -> NSImage {
         let canvas = NSSize(width: size * 22 / 18, height: size)
