@@ -9,23 +9,10 @@ struct CremaApp: App {
             BrewPanel()
                 .environmentObject(brewer)
         } label: {
-            MenuBarIcon(brewing: brewer.isBrewing)
+            Image(nsImage: PortafilterIcon.image(brewing: brewer.isBrewing))
+                .accessibilityLabel(brewer.isBrewing ? "Crema: brewing" : "Crema: idle")
         }
         .menuBarExtraStyle(.window)
-    }
-}
-
-/// The menu bar has its own appearance (it can be dark in light mode, depending on the wallpaper),
-/// so the brewing color follows the menu bar's color scheme rather than the system's.
-private struct MenuBarIcon: View {
-    let brewing: Bool
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        Image(nsImage: brewing
-              ? PortafilterIcon.image(brewing: true, color: PortafilterIcon.brewingColor(onDarkBar: colorScheme == .dark))
-              : PortafilterIcon.image(brewing: false))
-            .accessibilityLabel(brewing ? "Crema: brewing" : "Crema: idle")
     }
 }
 
